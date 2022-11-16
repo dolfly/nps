@@ -1,6 +1,7 @@
 package main
 
 import (
+	"ehang.io/nps/lib/daemon"
 	"flag"
 	"log"
 	"os"
@@ -20,7 +21,6 @@ import (
 
 	"ehang.io/nps/lib/common"
 	"ehang.io/nps/lib/crypt"
-	"ehang.io/nps/lib/daemon"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 
@@ -33,6 +33,7 @@ var (
 )
 
 func main() {
+
 	flag.Parse()
 	// init log
 	if *ver {
@@ -42,6 +43,7 @@ func main() {
 	if err := beego.LoadAppConfig("ini", filepath.Join(common.GetRunPath(), "conf", "nps.conf")); err != nil {
 		log.Fatalln("load config file error", err.Error())
 	}
+
 	common.InitPProfFromFile()
 	if level = beego.AppConfig.String("log_level"); level == "" {
 		level = "7"
@@ -89,6 +91,7 @@ func main() {
 		wg.Wait()
 		return
 	}
+
 	if len(os.Args) > 1 && os.Args[1] != "service" {
 		switch os.Args[1] {
 		case "reload":
@@ -151,6 +154,7 @@ func main() {
 			return
 		}
 	}
+
 	_ = s.Run()
 }
 
